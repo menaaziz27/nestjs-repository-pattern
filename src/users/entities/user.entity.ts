@@ -1,13 +1,13 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
-  @PrimaryKey({ type: 'uuid' })
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Property()
+  @Column()
   email: string;
 
-  @Property()
+  @Column()
   password: string;
 }

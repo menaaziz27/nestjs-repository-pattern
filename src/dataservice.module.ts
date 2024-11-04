@@ -1,10 +1,9 @@
 import { Module, Global } from '@nestjs/common';
-
-import { MicroOrmDataServiceModule } from './micro-orm-dataservice.module';
+import { SqliteDataServiceModule } from './sqllite-dataservice.module';
 
 @Global()
 @Module({
-  imports: [MicroOrmDataServiceModule],
-  exports: [MicroOrmDataServiceModule],
+  imports: [SqliteDataServiceModule],
+  exports: [SqliteDataServiceModule],
 })
 export class DataServiceModule {}

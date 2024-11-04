@@ -1,5 +1,3 @@
-import { EntityRepository } from '@mikro-orm/core';
+import { Repository } from 'typeorm';
 
-export abstract class IGenericRepository<
-  T extends object,
-> extends EntityRepository<T> {}
+export abstract class IGenericRepository<T> extends Repository<T> {}

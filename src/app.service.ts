@@ -7,18 +7,11 @@ export class AppService {
   constructor(private readonly dataService: IDataService) {}
 
   async getHello(): Promise<any> {
-    const user = await this.dataService.users.upsert({
-      id: '1',
+    const user = await this.dataService.users.save({
       email: 'ahmed',
       password: '123456',
     });
 
-    const address = await this.dataService.addresses.upsert({
-      id: '1',
-      street: 'el mahkama',
-      country: 'Egypt',
-    });
-
-    return { user, address };
+    return { user };
   }
 }
