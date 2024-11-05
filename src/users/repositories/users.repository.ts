@@ -5,12 +5,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities';
 import { BaseRepository } from '../../common/repositories';
 import { IUserRepository } from '../interfaces';
-import { IBaseRepository } from '../../common/interfaces';
 
 @Injectable()
 export class UsersRepository
   extends BaseRepository<User>
-  implements IUserRepository, IBaseRepository<User>
+  implements IUserRepository
 {
   constructor(@InjectRepository(User) repository: Repository<User>) {
     super(repository);
