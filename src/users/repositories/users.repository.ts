@@ -1,35 +1,32 @@
-import { Repository } from 'typeorm';
+import { DataSource, FindOneOptions, Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
 import { User } from '../entities';
-import { InjectRepository } from '@nestjs/typeorm';
+import { IUserRepository } from '../interfaces';
 
-interface IUserRepository {
-  findAll(): Promise<User[]>;
-  findById(id: string): Promise<User | undefined>;
-  create(user: User): Promise<User>;
-}
-
-//  now if we wanna change the ORM we can just change the repository implementation and the service will still work because it depends on the interface
-// since every orm has its own repository implementation we can just create a new repository for the new orm and implement the interface
-// and then change the provider in the module to use the new repository
-// since every orm has its own method names we can just change the implementation of the methods in the new repository without changing the name of the methods in the interface
-// we will always have findAll(), findById(), create() methods in the interface we only need to change the implementation of these methods in the new repository
-// that's why we use the interface to make the service independent of the orm
-export class UsersRepository implements IUserRepository {
-  constructor(
-    @InjectRepository(User)
-    private readonly model: Repository<User>,
-  ) {}
+@Injectable()
+export class UsersRepository
+  extends Repository<User>
+  implements IUserRepository
+{
+  constructor(private dataSource: DataSource) {
+    super(User, dataSource.createEntityManager());
+  }
 
   async findAll(): Promise<User[]> {
-    return this.model.find();
+    return this.find();
   }
 
-  async findById(id: string): Promise<User | undefined> {
-    return this.model.findOne({ where: { id } });
+  async findOne(options: FindOneOptions<User>): Promise<User | undefined> {
+    return this.findOne(options);
   }
 
-  async create(user: User): Promise<User> {
-    return this.model.save(user);
+  async createUser(user: User): Promise<User> {
+    return this.save(user);
   }
+
+  // we could put the count method implementation here or not since the repository already has a count method with the same name as the interface
+  // async count(): Promise<number> {
+  //   return this.count();
+  // }
 }
