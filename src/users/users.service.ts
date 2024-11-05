@@ -11,6 +11,10 @@ export class UsersService {
     private readonly repository: IUserRepository,
   ) {}
 
+  async create(user: User) {
+    return this.repository.create(user);
+  }
+
   async findAll() {
     return this.repository.findAll();
   }

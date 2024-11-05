@@ -2,13 +2,8 @@ import { FindOneOptions, Repository } from 'typeorm';
 
 import { IBaseRepository } from '../interfaces';
 
-export class BaseRepository<T>
-  extends Repository<T>
-  implements IBaseRepository<T>
-{
-  constructor(protected readonly repository: Repository<T>) {
-    super(repository.target, repository.manager, repository.queryRunner);
-  }
+export class BaseRepository<T> implements IBaseRepository<T> {
+  constructor(protected readonly repository: Repository<T>) {}
 
   async findAll(): Promise<T[]> {
     return await this.repository.find();
